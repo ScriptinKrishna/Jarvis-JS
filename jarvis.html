@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jarvis AI Assistant</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #transcript {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Jarvis AI Assistant</h1>
+    <p id="transcript"></p>
+    <script>
+        const recognition = new webkitSpeechRecognition();
+        recognition.lang = 'en-US';
+        recognition.maxResults = 10;
+        recognition.onresult = event => {
+            const transcript = event.results[event.results.length - 1][0].transcript
+               .trim()
+               .toLowerCase();
+            console.log(`Recognized speech: ${transcript}`);
+            document.getElementById('transcript').innerHTML = transcript;
+
+            const setupInfo = JSON.parse(localStorage.getItem("jarvis_setup"));
+
+            if (transcript.includes("hello")) {
+                readOut(`Hello, how can I assist you today?`);
+            } else if (transcript.includes("what is your name")) {
+                readOut(`My name is Jarvis, I'm your AI assistant.`);
+            } else if (transcript.includes("open")) {
+                let app = transcript.replace("open", "").trim().slice(0, -1);
+                readOut(`Opening ${app}`);
+
+                const exec = require('child_process').exec;
+                let command;
+
+                switch (app) {
+                    case "whatsapp":
+                        command = "start whatsapp.exe"; // assumes WhatsApp is installed and executable is in PATH
+                        break;
+                    case "google chrome":
+                        command = "start chrome.exe"; // assumes Google Chrome is installed and executable is in PATH
+                        break;
+                    // add more cases for other apps you want to support
+                    default:
+                        readOut(`Sorry, I couldn't find ${app}`);
+                        return;
+                }
+
+                exec(command, (error, stdout, stderr) => {
+                    if (error) {
+                        console.error(`Error opening ${app}: ${error}`);
+                        readOut(`Error opening ${app}`);
+                    }
+                });
+            } else {
+                readOut(`I didn't understand that. Please try again.`);
+            }
+        };
+
+        recognition.onstart = () => {
+            console.log('Speech recognition started');
+        };
+
+        recognition.onerror = event => {
+            console.log(`Error occurred: ${event.error}`);
+        };
+
+        recognition.onend = () => {
+            console.log('Speech recognition ended');
+        };
+
+        function readOut(text) {
+            const speech = new SpeechSynthesisUtterance();
+            speech.text = text;
+            speech.volume = 1;
+            speech.rate = 1;
+            speech.pitch = 1;
+            window.speechSynthesis.speak(speech);
+        }
+
+        recognition.start();
+    </script>
+</body>
+</html>
