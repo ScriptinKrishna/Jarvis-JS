@@ -9,8 +9,6 @@ body {
   color: #fff;
   height: auto;
   width: 100%;
-  background-image: url("New Black Screen Audio Spectrum 🔥🔥 _ Panda Particles.mp4");
-  /* The background image URL should not be a video file */
 }
 
 .jarvis_setup {
@@ -125,6 +123,7 @@ body {
 }
 
 .video {
+  height: 10rem;
   display: flex;
   justify-self: center;
   align-self: center;
@@ -209,20 +208,20 @@ body {
 
 .messages {
   width: 25rem;
+  background-color: transparent;
   height: auto;
-  background-color: #1818189f;
+  max-height: 10rem;
+  overflow: overlay;
   margin: auto;
   z-index: 1000;
-  position: relative;
   display: flex;
-  flex-wrap: wrap;
   flex-direction: column;
   justify-content: center;
 }
 
 .usermsg {
   text-align: right;
-  width: 98%;
+  width: 97%;
   margin-top: 5px;
   color: rgb(113, 113, 235);
   padding: 5px;
@@ -230,7 +229,7 @@ body {
 
 .jmsg {
   text-align: left;
-  width: 15rem;
+  width: 97%;
   color: rgb(245, 61, 61);
   margin-top: 5px;
   padding: 5px;
