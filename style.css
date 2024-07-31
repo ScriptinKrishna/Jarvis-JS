@@ -43,7 +43,8 @@ body {
 }
 
 .clock,
-.internet {
+.internet,
+.date {
   font-size: 20px;
   justify-content: flex-start;
   align-items: center;
@@ -53,7 +54,8 @@ body {
 }
 
 .clock span,
-.internet span {
+.internet span,
+.date span {
   padding: 10px;
 }
 

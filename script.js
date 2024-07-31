@@ -53,6 +53,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Initial Setup Check
+
+  if ((document.querySelector(".jarvis_setup").style.display = "block")) {
+    video.style.display = "none";
+  }
+
   if (localStorage.getItem("jarvis_setup") !== null) {
     document.querySelector(".jarvis_setup").style.display = "none";
     const setupInfo = JSON.parse(localStorage.getItem("jarvis_setup"));
@@ -105,7 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .trim()
       .toLowerCase();
     console.log(`Recognized speech: ${transcript}`);
-    createMsg("usermsg", transcript)
+    createMsg("usermsg", transcript);
 
     const setupInfo = JSON.parse(localStorage.getItem("jarvis_setup"));
     if (
@@ -134,7 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if (transcript.includes("open")) {
       const site = transcript.replace("open", "").trim();
       readOut(`Opening ${site}`);
-      window.open(`https://www.${site.split(" ").join("")}com`);
+      window.open(`https://www.${site.split(" ").join("")}.com`);
     } else if (transcript.includes("show my instagram")) {
       const profileUrl = `https://www.instagram.com/${setupInfo.instagram}`;
       readOut("Opening your Instagram profile");
@@ -152,11 +157,10 @@ document.addEventListener("DOMContentLoaded", () => {
           .join("+")}`
       );
     } else if (transcript.includes("how are you?")) {
-      readOut("I am fine sir. Thank you. What about you?")
+      readOut("I am fine sir. Thank you. What about you?");
     } else if (transcript.includes("i am good")) {
-      readOut("Glad to hear that. How can I assist you today?")
-    }
-    else if (
+      readOut("Glad to hear that. How can I assist you today?");
+    } else if (
       transcript.includes("thank you") ||
       transcript.includes("thanks")
     ) {
@@ -185,10 +189,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  recognition.onend = () => {
-    console.log("Jarvis is deactivated");
-  };
-
   recognition.onerror = (event) => {
     console.error("Speech recognition error:", event.error);
     readOut(`Error occurred in recognition: ${event.error}`);
@@ -199,30 +199,35 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("Recognition started");
     readOut("Jarvis is starting up");
   });
-  let removeInfo = () => {
+
+  infoBtn.addEventListener("click", () => {
     document.querySelector(".jarvis_setup").style.display = "block";
     startBtn.style.display = "none";
     infoBtn.style.display = "none";
-    localStorage.clear()
-    document.querySelector(".messages").style.display = "none"
+    localStorage.clear();
+    document.querySelector(".messages").style.display = "none";
     document.querySelector(".temp").style.display = "none";
     video.style.display = "none";
-  }
-  infoBtn.addEventListener("click", removeInfo);
+    document.querySelector(".hamburg").style.display = "none";
+  });
 
-  function submit() {
+  document.querySelector(".submit").addEventListener("click", () => {
     document.querySelector(".jarvis_setup").style.display = "none";
     video.style.display = "block";
     startBtn.style.display = "inline";
     infoBtn.style.display = "inline";
     document.querySelector(".temp").style.display = "block";
-  }
-
-  document.querySelector(".submit").addEventListener("click", submit);
-
-  document.querySelector(".submit").addEventListener("keypress", (event) => {
+  });
+  const submit = document.querySelector(".submit");
+  submit.addEventListener("keypress", (event) => {
     if (event.key === "Enter") {
-      submit();
+      event.preventDefault();
+      document.querySelector(".jarvis_setup").style.display = "none";
+      video.style.display = "block";
+      startBtn.style.display = "inline";
+      infoBtn.style.display = "inline";
+      document.querySelector(".hamburg").style.display = "block";
+      document.querySelector(".temp").style.display = "block";
     }
   });
 
@@ -244,22 +249,24 @@ document.addEventListener("DOMContentLoaded", () => {
       video.pause();
       video.currentTime = 0;
     };
-    createMsg("jmsg", message)
+    createMsg("jmsg", message);
     window.speechSynthesis.speak(speech);
   }
 
   function createMsg(who, msg) {
-    let newMsg = document.createElement("p")
+    let newMsg = document.createElement("p");
     newMsg.innerText = msg;
-    newMsg.setAttribute("class", who)
-    msgs.appendChild(newMsg)
+    newMsg.setAttribute("class", who);
+    msgs.appendChild(newMsg);
   }
 
   // Update Time
   const timeElement = document.querySelector("#time");
+  const dateElement = document.querySelector("#date");
   setInterval(() => {
     const now = new Date();
-    timeElement.textContent = now.toLocaleString();
+    dateElement.textContent = now.toLocaleDateString();
+    timeElement.textContent = now.toLocaleTimeString();
   }, 1000);
 
   // Hamburger Menu
