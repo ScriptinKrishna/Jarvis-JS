@@ -219,7 +219,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector(".temp").style.display = "block";
   });
   const submit = document.querySelector(".submit");
-  submit.addEventListener("keypress", (event) => {
+  submit.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
       document.querySelector(".jarvis_setup").style.display = "none";
