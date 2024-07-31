@@ -235,15 +235,15 @@ document.addEventListener("DOMContentLoaded", () => {
   function readOut(message) {
     const speech = new SpeechSynthesisUtterance();
     speech.text = message;
-    speech.volume = 1;
+    speech.volume = 0.8;  // Adjust volume here
     speech.rate = 1;
     speech.pitch = 1;
-
+  
     speech.onstart = () => {
       video.style.display = "block";
       video.play();
     };
-
+  
     speech.onend = () => {
       video.style.display = "none";
       video.pause();
@@ -252,7 +252,7 @@ document.addEventListener("DOMContentLoaded", () => {
     createMsg("jmsg", message);
     window.speechSynthesis.speak(speech);
   }
-
+    
   function createMsg(who, msg) {
     let newMsg = document.createElement("p");
     newMsg.innerText = msg;
