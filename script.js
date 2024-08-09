@@ -189,10 +189,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  recognition.onerror = (event) => {
-    console.error("Speech recognition error:", event.error);
-    readOut(`Error occurred in recognition: ${event.error}`);
-  };
+  // recognition.onerror = (event) => {
+  //   console.error("Speech recognition error:", event.error);
+  //   readOut(`Error occurred in recognition: ${event.error}`);
+  // };
 
   startBtn.addEventListener("click", () => {
     recognition.start();
